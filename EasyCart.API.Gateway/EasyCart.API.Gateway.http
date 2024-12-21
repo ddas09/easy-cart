@@ -1,0 +1,6 @@
+@EasyCart.API.Gateway_HostAddress = http://localhost:5022
+
+GET {{EasyCart.API.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
