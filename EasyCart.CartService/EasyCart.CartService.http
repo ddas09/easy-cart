@@ -1,6 +1,0 @@
-@EasyCart.CartService_HostAddress = http://localhost:5210
-
-GET {{EasyCart.CartService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
