@@ -5,6 +5,7 @@ public static class AppConstants
     public const string IdClaim = "id";
     public const string BearerKey = "Bearer ";
     public const string AuthorizationHeaderKey = "Authorization";
+    public const string APIGatewaySecretHeader = "X-API-Gateway-Key";
 
     public const string ContentType = "text/json";
 
@@ -26,6 +27,7 @@ public static class AppConstants
         NotFound,
         Conflict,
         BadRequest,
+        ServerError,
         Unauthorized,
         InvalidAccessToken,
         InvalidRefreshToken

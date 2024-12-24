@@ -8,6 +8,8 @@ public static class MiddlewareCollection
     public static void ConfigureMiddlewares(this IApplicationBuilder app)
     {
         app.UseMiddleware<GlobalExceptionMiddleware>();
+
+        app.UseMiddleware<APIGatewayAuthorizationMiddleware>();
     }
 }
 
