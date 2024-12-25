@@ -1,5 +1,6 @@
 using System.Net;
 using EasyCart.Shared.Models;
+using Microsoft.AspNetCore.Mvc;
 using EasyCart.Shared.Constants;
 using EasyCart.Shared.Exceptions;
 
@@ -16,19 +17,19 @@ public class APIKeyInjectingMiddleware
         _next = next;
         _logger = logger;
         _apiGatewaySecretKey = configuration["APIGateway:SecretKey"]
-            ?? throw new ApiException(message: "API Gateway secret key is missing in shared project", AppConstants.ErrorCodeEnum.ServerError);
+            ?? throw new ApiException(message: "API Gateway secret key is missing in API gateway project", AppConstants.ErrorCodeEnum.ServerError);
     }
 
     public async Task InvokeAsync(HttpContext context)
     {
-        try 
+        try
         {
             context.Request.Headers.Append(AppConstants.APIGatewaySecretHeader, _apiGatewaySecretKey);            
             await _next(context);
         }
-        catch (Exception exception) 
+        catch (Exception exception)
         {
-            _logger.LogError(exception, "An exception occurred while processing the request.");
+            this._logger.LogError(exception.ToString());
             await this.HandleResponse(context: context);
         }
     }

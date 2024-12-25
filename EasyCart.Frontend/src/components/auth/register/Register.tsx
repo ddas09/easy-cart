@@ -25,9 +25,9 @@ const Register = () => {
     }
 
     if (password !== confirmPassword) {
-        toast.error('Entered passwords do not match.');
-        setLoading(false);
-        return;
+      toast.error('Entered passwords do not match.');
+      setLoading(false);
+      return;
     }
 
     try {

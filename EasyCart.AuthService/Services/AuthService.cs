@@ -35,7 +35,8 @@ public class AuthService : IAuthService
         // todo: genrate JWT token for user here
         return new AuthResponse
         {
-            Token = string.Empty
+            Token = string.Empty,
+            User = this._mapper.Map<UserInformation>(user)
         };
     }
 
@@ -57,7 +58,8 @@ public class AuthService : IAuthService
         // todo: genrate JWT token for user here
         return new AuthResponse
         {
-            Token = string.Empty
+            Token = string.Empty,
+            User = this._mapper.Map<UserInformation>(user)
         };
     }
 }

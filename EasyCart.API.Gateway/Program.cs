@@ -14,6 +14,18 @@ builder.Services.AddOcelot();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// For configuring CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyCORSPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +38,9 @@ app.UseHttpsRedirection();
 
 // Configure middlewares
 app.ConfigureMiddlewares();
+
+// Enable CORS
+app.UseCors("MyCORSPolicy");
 
 // Use Ocelot middleware
 await app.UseOcelot();

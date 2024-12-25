@@ -27,6 +27,7 @@ public static class AppConstants
         NotFound,
         Conflict,
         BadRequest,
+        Forbidden,
         ServerError,
         Unauthorized,
         InvalidAccessToken,
