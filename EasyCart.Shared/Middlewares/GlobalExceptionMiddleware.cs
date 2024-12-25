@@ -47,6 +47,7 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
             AppConstants.ErrorCodeEnum.Conflict => response.Conflict(message: apiException.Message),
             AppConstants.ErrorCodeEnum.NotFound => response.NotFound(message: apiException.Message),
             AppConstants.ErrorCodeEnum.BadRequest => response.BadRequest(message: apiException.Message),
+            AppConstants.ErrorCodeEnum.Forbidden => response.Forbidden(message: apiException.Message),
             AppConstants.ErrorCodeEnum.Unauthorized => response.Unauthorized(message: apiException.Message),
             AppConstants.ErrorCodeEnum.InvalidAccessToken => response.Unauthorized(message: apiException.Message, status: AppConstants.InvalidAccessToken),
             AppConstants.ErrorCodeEnum.InvalidRefreshToken => response.Unauthorized(message: apiException.Message, status: AppConstants.InvalidRefreshToken),
