@@ -1,6 +1,7 @@
 using Ocelot.Middleware;
 using Ocelot.DependencyInjection;
 using EasyCart.API.Gateway.Extensions;
+using EasyCart.API.Gateway.Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,8 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
+builder.Services.RegisterServices();
 
 var app = builder.Build();
 

@@ -33,5 +33,14 @@ public static class AppConstants
         InvalidAccessToken,
         InvalidRefreshToken
     }
+
+    public static readonly List<string> PublicEndpoints =
+    [
+        "/auth/login",
+        "/auth/register",
+        "auth/tokens/refresh"
+    ];
+
+    public const string AuthServiceBaseURL = "http://localhost:5001";
 }
 
