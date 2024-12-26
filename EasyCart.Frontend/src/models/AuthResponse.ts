@@ -1,9 +1,11 @@
+import { JwtTokenContainerModel } from "./JwtTokenContainerModel";
+
 export interface UserInformation {
     id: number;
     email: string;
 }
 
 export interface AuthResponse {
-    token: string;
+    tokenContainer: JwtTokenContainerModel;
     user: UserInformation;
 }

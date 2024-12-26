@@ -2,11 +2,12 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import StorageService from '../services/StorageService';
 import { AuthResponse, UserInformation } from '../models/AuthResponse';
+import { JwtTokenContainerModel } from '../models/JwtTokenContainerModel';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface AuthContextType {
   user: UserInformation | null;
-  token: string | null;
+  tokens: JwtTokenContainerModel | null;
   login: (authResponse: AuthResponse) => void;
   logout: () => void;
 }
@@ -21,33 +22,35 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<UserInformation | null>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const [tokens, setTokens] = useState<JwtTokenContainerModel | null>(null);
 
   useEffect(() => {
     // Get the user and token from localStorage when the app initializes
-    const storedToken = StorageService.getValue<string>('authToken');
+    const tokens = StorageService.getValue<JwtTokenContainerModel>('tokens');
     const storedUser = StorageService.getValue<UserInformation>('currentUser');
 
-    if (storedUser && storedToken) {
+    if (storedUser && tokens) {
       setUser(storedUser);
-      setToken(storedToken);
+      setTokens(tokens);
     }
   }, []);
 
   const login = (authResponse: AuthResponse) => {
     setUser(authResponse.user);
-    setToken(authResponse.token);
+    setTokens(authResponse.tokenContainer);
 
-    StorageService.setValue('authToken', authResponse.token);
     StorageService.setValue('currentUser', authResponse.user);
+    StorageService.setValue<JwtTokenContainerModel>('tokens', authResponse.tokenContainer);
+
+    // Redirect to dashboard page and clear history to prevent navigation back
+    navigate('/dashboard', { replace: true });
   };
 
   const logout = () => {
     setUser(null);
-    setToken(null);
+    setTokens(null);
 
-    StorageService.removeValue('authToken');
-    StorageService.removeValue('currentUser');
+    StorageService.clearStorage();
 
     // Redirect to login page and clear history to prevent navigation back
     navigate('/login', { replace: true });
@@ -56,7 +59,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, tokens, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -67,5 +70,6 @@ export const useAuth = (): AuthContextType => {
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
+  
   return context;
 };

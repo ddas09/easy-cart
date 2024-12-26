@@ -1,7 +1,8 @@
 using Ocelot.Middleware;
 using Ocelot.DependencyInjection;
 using EasyCart.API.Gateway.Extensions;
-using EasyCart.API.Gateway.Services.Extensions;
+using EasyCart.Shared.Services.Extensions;
+using EasyCart.API.Gateway.Models.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.RegisterServices();
+// Binding custom models with configurations
+builder.Services.Configure<AuthTokenConfiguration>
+(
+    builder.Configuration.GetSection(nameof(AuthTokenConfiguration))
+);
+
+// For registering shared services
+builder.Services.RegisterSharedServices();
 
 var app = builder.Build();
 

@@ -2,9 +2,9 @@ namespace EasyCart.AuthService.Models.Response;
 
 public class AuthResponse
 {
-    public string Token { get; set; }
-
     public UserInformation User { get; set; }
+
+    public JwtTokenContainerModel TokenContainer { get; set; }
 }
 
 public class UserInformation
