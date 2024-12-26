@@ -7,6 +7,8 @@ public static class MiddlewareCollection
     public static void ConfigureMiddlewares(this IApplicationBuilder app)
     {
         app.UseMiddleware<APIKeyInjectingMiddleware>();
+
+        app.UseMiddleware<AuthTokenValidationMiddleware>();
     }
 }
 

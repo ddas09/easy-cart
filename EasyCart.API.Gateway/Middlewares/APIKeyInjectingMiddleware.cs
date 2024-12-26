@@ -1,6 +1,5 @@
 using System.Net;
 using EasyCart.Shared.Models;
-using Microsoft.AspNetCore.Mvc;
 using EasyCart.Shared.Constants;
 using EasyCart.Shared.Exceptions;
 

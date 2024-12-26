@@ -5,6 +5,7 @@ using EasyCart.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using EasyCart.AuthService.DAL.Extensions;
 using EasyCart.AuthService.Services.Extensions;
+using EasyCart.AuthService.Models.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,12 @@ builder.Services.AddDbContext<AuthDBContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("EasyCartAuthDB"));
 });
+
+// Binding custom models with configurations
+builder.Services.Configure<JwtConfiguration>
+(
+    builder.Configuration.GetSection(nameof(JwtConfiguration))
+);
 
 // For registering action filters
 builder.Services.RegisterActionFilters();
