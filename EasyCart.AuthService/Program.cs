@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using EasyCart.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using EasyCart.AuthService.DAL.Extensions;
+using EasyCart.Shared.Services.Extensions;
 using EasyCart.AuthService.Services.Extensions;
 using EasyCart.AuthService.Models.Configurations;
 
@@ -44,9 +45,13 @@ builder.Services.AddDbContext<AuthDBContext>(options =>
 });
 
 // Binding custom models with configurations
-builder.Services.Configure<JwtConfiguration>
+builder.Services.Configure<AccessTokenConfiguration>
 (
-    builder.Configuration.GetSection(nameof(JwtConfiguration))
+    builder.Configuration.GetSection(nameof(AccessTokenConfiguration))
+);
+builder.Services.Configure<RefreshTokenConfiguration>
+(
+    builder.Configuration.GetSection(nameof(RefreshTokenConfiguration))
 );
 
 // For registering action filters
@@ -54,6 +59,9 @@ builder.Services.RegisterActionFilters();
 
 // For registering repositories for DI
 builder.Services.RegisterRepositories();
+
+// For registering shared services
+builder.Services.RegisterSharedServices();
 
 // For registering services for DI
 builder.Services.RegisterServices();

@@ -2,22 +2,29 @@ using System.Net;
 using EasyCart.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using EasyCart.Shared.Constants;
-using EasyCart.API.Gateway.Services.Contracts;
+using Microsoft.Extensions.Options;
+using EasyCart.Shared.Services.Contracts;
+using EasyCart.API.Gateway.Models.Configurations;
 
 namespace EasyCart.API.Gateway.Middlewares;
 
 public class AuthTokenValidationMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IHttpClientService _httpClientService;
     private readonly CustomResponse _customResponse = new();
+    private readonly AuthTokenConfiguration _authTokenConfiguration;
+
     private readonly ILogger<AuthTokenValidationMiddleware> _logger;
 
-    public AuthTokenValidationMiddleware(RequestDelegate next, ILogger<AuthTokenValidationMiddleware> logger, IHttpClientService httpClientService)
+    public AuthTokenValidationMiddleware
+    (
+        RequestDelegate next, 
+        ILogger<AuthTokenValidationMiddleware> logger, 
+        IOptions<AuthTokenConfiguration> authTokenConfiguration)
     {
         _next = next;
         _logger = logger;
-        _httpClientService = httpClientService;
+        _authTokenConfiguration = authTokenConfiguration.Value;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -42,16 +49,13 @@ public class AuthTokenValidationMiddleware
                 return;
             }
 
-            // Send token for validation to auth service
-            var response = await _httpClientService
-                .PostAsync
-                (
-                    endpoint: "auth/tokens/validate", 
-                    payload: new { token = authHeader.ToString().Replace("Bearer ", "") }
-                );
-            
+            var jwtService = context.RequestServices.GetService<IJwtService>()
+                ?? throw new InvalidOperationException($"Could not get service of type {nameof(IJwtService)}");
+
+            var accessToken = authHeader.ToString().Replace(AppConstants.BearerKey, string.Empty);
+
             // Continue with the request if the token is valid
-            if (response.IsSuccessStatusCode)
+            if (jwtService.IsValidToken(configuration: _authTokenConfiguration, token: accessToken))
             {
                 await _next(context);
             }
