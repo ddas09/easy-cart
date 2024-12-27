@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.CartService", "Eas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.OrderService", "EasyCart.OrderService\EasyCart.OrderService.csproj", "{9AD5452B-F1D3-4365-AB00-A87DE023329A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.NotificationService", "EasyCart.NotificationService\EasyCart.NotificationService.csproj", "{3940A3F0-883B-4D9F-BD6D-0B72431E10C3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.API.Gateway", "EasyCart.API.Gateway\EasyCart.API.Gateway.csproj", "{1394E516-5810-4996-AF0B-38ED9023F420}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.Shared", "EasyCart.Shared\EasyCart.Shared.csproj", "{358E6E80-7EF0-40BB-B9BD-B55E70C90A0D}"
@@ -38,10 +36,6 @@ Global
 		{9AD5452B-F1D3-4365-AB00-A87DE023329A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AD5452B-F1D3-4365-AB00-A87DE023329A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AD5452B-F1D3-4365-AB00-A87DE023329A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3940A3F0-883B-4D9F-BD6D-0B72431E10C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3940A3F0-883B-4D9F-BD6D-0B72431E10C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3940A3F0-883B-4D9F-BD6D-0B72431E10C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3940A3F0-883B-4D9F-BD6D-0B72431E10C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1394E516-5810-4996-AF0B-38ED9023F420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1394E516-5810-4996-AF0B-38ED9023F420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1394E516-5810-4996-AF0B-38ED9023F420}.Release|Any CPU.ActiveCfg = Release|Any CPU
