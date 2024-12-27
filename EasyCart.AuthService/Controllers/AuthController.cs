@@ -39,4 +39,26 @@ public class AuthController(IAuthService authService) : ControllerBase
         var authResponse = await _authService.RegisterUser(request);
         return _customResponse.Success(message: "Account created successfully.", data: authResponse);
     }
+
+    /// <summary>
+    /// Generates new set of tokens for the user.
+    /// </summary>
+    /// <param name="request">The request containing the refresh token.</param>
+    [HttpPost("tokens/refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestModel request)
+    {
+        var tokens = await _authService.RefreshToken(request);
+        return _customResponse.Success(data: tokens);
+    }
+
+    /// <summary>
+    /// Logs out the currently authenticated user.
+    /// </summary>
+    [HttpPost("[action]")]
+    public async Task<IActionResult> Logout(int userId)
+    {
+        await _authService.Logout(userId: userId);
+        string message = "User account logged out successfully.";
+        return _customResponse.Success(message: message);
+    }
 }
