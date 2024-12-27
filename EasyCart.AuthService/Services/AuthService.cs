@@ -1,4 +1,5 @@
 using AutoMapper;
+using System.Transactions;
 using System.Security.Claims;
 using EasyCart.Shared.Constants;
 using EasyCart.Shared.Exceptions;
@@ -21,6 +22,7 @@ public class AuthService : IAuthService
     private readonly ICryptographyService _cryptographyService;
     private readonly AccessTokenConfiguration _accessTokenConfiguration;
     private readonly RefreshTokenConfiguration _refreshTokenConfiguration;
+    private readonly IRefreshTokenEntryRepository _refreshTokenEntryRepository;
 
     public AuthService
     (
@@ -28,6 +30,7 @@ public class AuthService : IAuthService
         IJwtService jwtService,
         IUserRepository userRepository, 
         ICryptographyService cryptographyService,
+        IRefreshTokenEntryRepository refreshTokenEntryRepository,
         IOptions<AccessTokenConfiguration> accessTokenConfiguration,
         IOptions<RefreshTokenConfiguration> refreshTokenConfiguration)
     {
@@ -35,6 +38,7 @@ public class AuthService : IAuthService
         _jwtService = jwtService;
         _userRepository = userRepository;
         _cryptographyService = cryptographyService;
+        _refreshTokenEntryRepository = refreshTokenEntryRepository;
         _accessTokenConfiguration = accessTokenConfiguration.Value;
         _refreshTokenConfiguration = refreshTokenConfiguration.Value;
     }
@@ -51,7 +55,7 @@ public class AuthService : IAuthService
 
         return new AuthResponse
         {
-            TokenContainer = this.GetJwtTokens(user: user),
+            TokenContainer = await this.GetJwtTokens(user: user),
             User = this._mapper.Map<UserInformation>(user)
         };
     }
@@ -73,12 +77,61 @@ public class AuthService : IAuthService
 
         return new AuthResponse
         {
-            TokenContainer = this.GetJwtTokens(user: newUser),
+            TokenContainer = await this.GetJwtTokens(user: newUser),
             User = this._mapper.Map<UserInformation>(newUser)
         };
     }
 
-    private JwtTokenContainerModel GetJwtTokens(User user)
+    public async Task<JwtTokenContainerModel> RefreshToken(RefreshTokenRequestModel request)
+    {
+        bool isValidToken = this._jwtService.IsValidToken(configuration: this._refreshTokenConfiguration, token: request.RefreshToken);
+        if (!isValidToken)
+        {
+            throw new ApiException(message: "Invalid refresh token provided.", errorCode: AppConstants.ErrorCodeEnum.InvalidRefreshToken);
+        }
+
+        var refrehTokenEntry = await this._refreshTokenEntryRepository.Get(rt => rt.Token == request.RefreshToken) 
+            ?? throw new ApiException(message: "Refresh token has been expired.", errorCode: AppConstants.ErrorCodeEnum.InvalidRefreshToken);
+
+        // This scenario should never occur practically, as this entry we are getting from SQL DB
+        var user = await this._userRepository.Get(u => u.Id == refrehTokenEntry.UserId) 
+            ?? throw new ApiException(message: "Invalid user token; user doesn't exist.", errorCode: AppConstants.ErrorCodeEnum.InvalidRefreshToken);
+
+        using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
+        // invalidate previous tokens
+        var refreshTokenEntries = await this.GetRefreshTokensByUserId(refrehTokenEntry.UserId);
+        await this._refreshTokenEntryRepository.DeleteRange(refreshTokenEntries);
+
+        var tokenContainer = await this.GetJwtTokens(user: user);
+
+        var newRefreshTokenEntry = new RefreshTokenEntry()
+        {
+            Token = tokenContainer.RefreshToken,
+            UserId = refrehTokenEntry.UserId,
+        };
+        await this._refreshTokenEntryRepository.Add(newRefreshTokenEntry);
+
+        scope.Complete();
+
+        return tokenContainer;
+    }
+
+    public async Task Logout(int userId)
+    {
+        var user = await this._userRepository.Get(u => u.Id == userId) 
+            ?? throw new ApiException(message: "User doesn't exist.", errorCode: AppConstants.ErrorCodeEnum.NotFound);
+
+        var refreshTokenEntries = await this.GetRefreshTokensByUserId(userId);
+        await this._refreshTokenEntryRepository.DeleteRange(refreshTokenEntries);
+    }
+
+    private async Task<IEnumerable<RefreshTokenEntry>> GetRefreshTokensByUserId(int userId)
+    {
+        return await _refreshTokenEntryRepository.GetList(predicate: rt => rt.UserId == userId);
+    }
+
+    private async Task<JwtTokenContainerModel> GetJwtTokens(User user)
     {
         var claims = new List<Claim>
         {
@@ -86,10 +139,23 @@ public class AuthService : IAuthService
             new("email", user.Email),
         };
 
+        var accessToken = this._jwtService.GenerateToken(claims: claims, configuration: this._accessTokenConfiguration);
+        var refreshToken = this._jwtService.GenerateToken(claims: claims, configuration: this._refreshTokenConfiguration);
+
+        var refreshTokenEntry = new RefreshTokenEntry
+        {
+            Token = refreshToken,
+            UserId = user.Id,
+            CreatedBy = user.Email,
+            UpdatedBy = user.Email
+        };
+
+        await this._refreshTokenEntryRepository.Add(refreshTokenEntry);
+
         return new JwtTokenContainerModel
         {
-            AccessToken = this._jwtService.GenerateToken(claims: claims, configuration: this._accessTokenConfiguration),
-            RefreshToken = this._jwtService.GenerateToken(claims: claims, configuration: this._refreshTokenConfiguration),
+            AccessToken = accessToken,
+            RefreshToken = refreshToken
         };
     }
 }

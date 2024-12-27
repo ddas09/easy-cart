@@ -8,5 +8,7 @@ public static class RepositoryCollection
     public static void RegisterRepositories(this IServiceCollection services)
     {
         services.AddScoped<IUserRepository, UserRepository>();
+
+        services.AddScoped<IRefreshTokenEntryRepository, RefreshTokenEntryRepository>();
     }
 }

@@ -10,10 +10,14 @@ public class AuthDBContext : DbContext
 
     public DbSet<User> Users { get; set; }
 
+    public DbSet<RefreshTokenEntry> RefreshTokenEntries { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
+
+        modelBuilder.ApplyConfiguration(new RefreshTokenEntryConfiguration());
     }
 }

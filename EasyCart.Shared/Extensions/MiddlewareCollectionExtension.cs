@@ -5,7 +5,7 @@ namespace EasyCart.Shared.Extensions;
 
 public static class MiddlewareCollection
 {
-    public static void ConfigureMiddlewares(this IApplicationBuilder app)
+    public static void ConfigureSharedMiddlewares(this IApplicationBuilder app)
     {
         app.UseMiddleware<GlobalExceptionMiddleware>();
 

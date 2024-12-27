@@ -92,7 +92,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // For configuring custom middlewares
-app.ConfigureMiddlewares();
+app.ConfigureSharedMiddlewares();
 
 app.UseHttpsRedirection();
 
