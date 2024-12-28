@@ -11,6 +11,18 @@
             ],
             "UpstreamPathTemplate": "/auth/{everything}",
             "UpstreamHttpMethod": [ "POST", "GET" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/products/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5002
+                }
+            ],
+            "UpstreamPathTemplate": "/products/{everything}",
+            "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
         }
     ],
     "GlobalConfiguration": {
