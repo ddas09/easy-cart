@@ -25,7 +25,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Easy Cart Auth API", Version = "v1" });
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Easy Cart Product API", Version = "v1" });
 
     // To include XML comments in Swagger UI
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

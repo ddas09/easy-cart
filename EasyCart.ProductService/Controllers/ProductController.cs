@@ -11,7 +11,7 @@ namespace EasyCart.ProductService.Controllers
     /// </summary>
     [ApiController]
     [ValidateModelState]
-    [Route("api/[controller]")]
+    [Route("api/products")]
     public class ProductController(IProductService productService) : ControllerBase
     {
         private readonly CustomResponse _customResponse = new();
