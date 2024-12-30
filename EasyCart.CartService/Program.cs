@@ -42,8 +42,8 @@ builder.Services.AddDbContext<CartDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("EasyCartCartDB"));
 });
 
-// For registering action filters
-builder.Services.RegisterActionFilters();
+// For registering shared action filters
+builder.Services.RegisterSharedActionFilters();
 
 // For registering repositories for DI
 builder.Services.RegisterRepositories();

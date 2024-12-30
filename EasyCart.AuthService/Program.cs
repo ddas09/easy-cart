@@ -54,8 +54,8 @@ builder.Services.Configure<RefreshTokenConfiguration>
     builder.Configuration.GetSection(nameof(RefreshTokenConfiguration))
 );
 
-// For registering action filters
-builder.Services.RegisterActionFilters();
+// For registering shared action filters
+builder.Services.RegisterSharedActionFilters();
 
 // For registering repositories for DI
 builder.Services.RegisterRepositories();
