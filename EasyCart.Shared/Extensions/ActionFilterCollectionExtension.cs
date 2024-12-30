@@ -5,7 +5,7 @@ namespace EasyCart.Shared.Extensions;
 
 public static class ActionFilterCollection
 {
-    public static void RegisterActionFilters(this IServiceCollection services)
+    public static void RegisterSharedActionFilters(this IServiceCollection services)
     {
         services.AddScoped<ValidateModelStateAttribute>();
     }

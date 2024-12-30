@@ -35,6 +35,18 @@
             ],
             "UpstreamPathTemplate": "/carts/{everything}",
             "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/orders/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5004
+                }
+            ],
+            "UpstreamPathTemplate": "/orders/{everything}",
+            "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
         }
     ],
     "GlobalConfiguration": {
