@@ -34,6 +34,8 @@ public static class AppConstants
         InvalidRefreshToken
     }
 
+    public const string SwaggerEndpoint = "/openapi";
+
     public static readonly List<string> PublicEndpoints =
     [
         "/auth/login",
