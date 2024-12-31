@@ -22,6 +22,15 @@ public class APIGatewayAuthorizationMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        var requestPath = context.Request.Path.Value;
+        
+        // Skip validation swagger UI endpoint
+        if (string.IsNullOrEmpty(requestPath) || requestPath.StartsWith(AppConstants.SwaggerEndpoint, StringComparison.OrdinalIgnoreCase))
+        {
+            await _next(context);
+            return;
+        }
+
         // Check for the presence of the API Gateway key in headers
         if (!context.Request.Headers.TryGetValue(AppConstants.APIGatewaySecretHeader, out var providedKey) || string.IsNullOrEmpty(providedKey))
         {

@@ -1,7 +1,7 @@
 using Ocelot.Middleware;
 using Ocelot.DependencyInjection;
 using EasyCart.API.Gateway.Extensions;
-using EasyCart.Shared.Services.Extensions;
+using EasyCart.API.Gateway.Services.Extensions;
 using EasyCart.API.Gateway.Models.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,14 +12,10 @@ builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange
 // Add Ocelot and other services
 builder.Services.AddOcelot();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
 // For configuring CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("MyCORSPolicy", policy =>
+    options.AddPolicy("ApiGatewayCORSPolicy", policy =>
     {
         policy.WithOrigins("http://localhost:5173")
             .AllowAnyMethod()
@@ -34,16 +30,10 @@ builder.Services.Configure<AuthTokenConfiguration>
     builder.Configuration.GetSection(nameof(AuthTokenConfiguration))
 );
 
-// For registering shared services
-builder.Services.RegisterSharedServices();
+// For registering services for DI
+builder.Services.RegisterServices();
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
 
 app.UseHttpsRedirection();
 
@@ -51,7 +41,7 @@ app.UseHttpsRedirection();
 app.ConfigureMiddlewares();
 
 // Enable CORS
-app.UseCors("MyCORSPolicy");
+app.UseCors("ApiGatewayCORSPolicy");
 
 // Use Ocelot middleware
 await app.UseOcelot();

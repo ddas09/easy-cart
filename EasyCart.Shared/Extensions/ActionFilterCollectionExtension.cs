@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyCart.Shared.Extensions;
 
-public static class ActionFilterCollection
+internal static class ActionFilterCollection
 {
-    public static void RegisterSharedActionFilters(this IServiceCollection services)
+    internal static void RegisterSharedActionFilters(this IServiceCollection services)
     {
         services.AddScoped<ValidateModelStateAttribute>();
     }
