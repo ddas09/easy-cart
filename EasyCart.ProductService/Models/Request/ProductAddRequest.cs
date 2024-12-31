@@ -11,11 +11,11 @@ public class ProductAddRequest
     public string Description { get; set; }
 
     [Required]
-    [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0.")]
+    [Range(1, 100000, ErrorMessage = "Price must be in the range of 100 to 1 lakh.")]
     public decimal Price { get; set; }
 
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "Stock must be greater than 0.")]
+    [Range(1, 1000, ErrorMessage = "Stock must be greater than 1 to 1000.")]
     public int Stock { get; set; }
 
     [Required]
