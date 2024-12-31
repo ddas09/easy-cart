@@ -19,3 +19,4 @@
     <ProjectReference Include="..\EasyCart.Shared\EasyCart.Shared.csproj" />
   </ItemGroup>
 
+</Project>
