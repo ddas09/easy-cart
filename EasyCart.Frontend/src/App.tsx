@@ -5,6 +5,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 import Register from './components/auth/register/Register';
 import Notification from './components/notification/Notification';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoggedOutRoute from './routes/LoggedOutRoute';
 
 const App = () => {
   return (
@@ -13,9 +14,24 @@ const App = () => {
         <Notification />
 
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
+          {/* Use LoggedOutRoute for the login and register routes */}
+          <Route 
+            path="/login" 
+            element={
+              <LoggedOutRoute>
+                <Login />
+              </LoggedOutRoute>
+            } 
+          />
+          <Route 
+            path="/register" 
+            element={
+              <LoggedOutRoute>
+                <Register />
+              </LoggedOutRoute>
+            } 
+          />
+
           {/* Protect the Dashboard route */}
           <Route 
             path="/dashboard" 
@@ -26,6 +42,7 @@ const App = () => {
             } 
           />
 
+          {/* Default route */}
           <Route path="/" element={<Login />} />
         </Routes>
       </AuthProvider>

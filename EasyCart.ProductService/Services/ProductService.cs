@@ -65,18 +65,9 @@ public class ProductService : IProductService
         await this._productRepository.Update(product);
     }
 
-    public async Task<ProductResponse> GetAllProducts(string searchText)
+    public async Task<ProductResponse> GetAllProducts()
     {
-        Expression<Func<Product, bool>> predicate = p => p.IsActive;
-
-        // If searchText is provided, add conditions to match product name or description
-        if (!string.IsNullOrEmpty(searchText))
-        {
-            string searchFilter = searchText.Trim().ToLower();
-            predicate = predicate.And(p => p.Name.ToLower().Contains(searchFilter) || p.Description.ToLower().Contains(searchFilter));
-        }
-
-        var activeProducts = await this._productRepository.GetList(predicate: predicate);
+        var activeProducts = await this._productRepository.GetList(predicate: p => p.IsActive);
 
         return new ProductResponse
         {

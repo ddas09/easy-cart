@@ -5,7 +5,7 @@ namespace EasyCart.ProductService.Services.Contracts;
 
 public interface IProductService
 {
-    Task<ProductResponse> GetAllProducts(string searchText);
+    Task<ProductResponse> GetAllProducts();
 
     Task<ProductInformation> GetProduct(int productId);
 

@@ -21,11 +21,9 @@ body {
 
 /* Set up flexbox centering for the entire app */
 #root {
-  display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
   background-color: #fafafa;
 }
 
