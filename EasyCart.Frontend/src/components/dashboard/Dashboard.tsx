@@ -1,23 +1,46 @@
 import './Dashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
+import ProductList from './Products/ProductList';
+import { useState } from 'react';
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
+  const [searchTerm, setSearchTerm] = useState('');
 
   if (!user) {
     return null;
   }
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="dashboard-container">
-      <div className="dashboard-header">
-        <h1>Welcome to the Dashboard</h1>
-        <button onClick={logout}>Logout</button>
+      {/* Top Navigation Bar */}
+      <div className="dashboard-nav">
+        <div className="nav-left">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="nav-search"
+          />
+        </div>
+        <div className="nav-right">
+          <p className="user-email">{user.email}</p>
+          <button onClick={logout} className="logout-button">
+            Logout
+          </button>
+        </div>
       </div>
+
+      {/* Dashboard Content */}
       <div className="dashboard-content">
-        <div className="summary-card">
-          <h3>Your Email</h3>
-          <p>{user.email}</p>
+        <div className="product-section">
+          <h2>Available Products</h2>
+          <ProductList searchTerm={searchTerm} />
         </div>
       </div>
     </div>

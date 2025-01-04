@@ -76,11 +76,10 @@ namespace EasyCart.ProductService.Controllers
         /// <summary>
         /// Returns product that matches the search criteria.
         /// </summary>
-        /// <param name="searchText">Search text to filter products.</param>
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] string searchText)
+        public async Task<IActionResult> GetAll()
         {
-            var product = await this._productService.GetAllProducts(searchText);
+            var product = await this._productService.GetAllProducts();
             return _customResponse.Success(data: product);
         }
     }

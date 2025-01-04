@@ -8,8 +8,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // If authenticated, allow access to the protected route
-  return children;
+  return children;  // Allow access to protected route
 };
 
 export default ProtectedRoute;

@@ -20,9 +20,9 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
-
   const [user, setUser] = useState<UserInformation | null>(null);
   const [tokens, setTokens] = useState<JwtTokenContainerModel | null>(null);
+  const [loading, setLoading] = useState(true);  // Add loading state
 
   useEffect(() => {
     // Get the user and token from localStorage when the app initializes
@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(storedUser);
       setTokens(tokens);
     }
+    
+    setLoading(false);  // Set loading to false once data is loaded
   }, []);
 
   const login = (authResponse: AuthResponse) => {
@@ -42,21 +44,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     StorageService.setValue('currentUser', authResponse.user);
     StorageService.setValue<JwtTokenContainerModel>('tokens', authResponse.tokenContainer);
 
-    // Redirect to dashboard page and clear history to prevent navigation back
     navigate('/dashboard', { replace: true });
   };
 
   const logout = () => {
     setUser(null);
     setTokens(null);
-
     StorageService.clearStorage();
-
-    // Redirect to login page and clear history to prevent navigation back
     navigate('/login', { replace: true });
-
     toast.success('Logged out successfully.');
   };
+
+  if (loading) {
+    // Optionally show a loader or spinner while checking for the user
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, tokens, login, logout }}>
