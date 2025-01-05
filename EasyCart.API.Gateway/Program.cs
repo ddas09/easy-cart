@@ -44,6 +44,6 @@ app.ConfigureMiddlewares();
 app.UseCors("ApiGatewayCORSPolicy");
 
 // Use Ocelot middleware
-await app.UseOcelot();
+app.UseOcelot().Wait();
 
 app.Run();

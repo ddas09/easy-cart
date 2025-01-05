@@ -18,17 +18,6 @@ namespace EasyCart.ProductService.Controllers
         private readonly IProductService _productService = productService;
 
         /// <summary>
-        /// Returns product details with the id.
-        /// </summary>
-        /// <param name="productId">The ID of the product.</param>
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> Get([FromRoute] int productId)
-        {
-            var product = await this._productService.GetProduct(productId);
-            return _customResponse.Success(data: product);
-        }
-
-        /// <summary>
         /// Returns product that matches the search criteria.
         /// </summary>
         [ValidateUserRole(AllowedRoles = ["User", "Admin"])]
@@ -40,9 +29,22 @@ namespace EasyCart.ProductService.Controllers
         }
 
         /// <summary>
+        /// Returns product details with the id.
+        /// </summary>
+        /// <param name="productId">The ID of the product.</param>
+        [ValidateUserRole(AllowedRoles = ["User", "Admin"])]
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> Get([FromRoute] int productId)
+        {
+            var product = await this._productService.GetProduct(productId);
+            return _customResponse.Success(data: product);
+        }
+
+        /// <summary>
         /// Adds a new product.
         /// </summary>
         /// <param name="request">The request containing product details.</param>
+        [ValidateUserRole(AllowedRoles = ["Admin"])]
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] ProductAddRequest request)
         {
@@ -55,6 +57,7 @@ namespace EasyCart.ProductService.Controllers
         /// </summary>
         /// <param name="productId">The ID of the product to update.</param>
         /// <param name="request">The request containing updated product details.</param>
+        [ValidateUserRole(AllowedRoles = ["Admin"])]
         [HttpPut("{productId}")]
         public async Task<IActionResult> Update([FromRoute] int productId, [FromBody] ProductUpdateRequest request)
         {
@@ -72,6 +75,7 @@ namespace EasyCart.ProductService.Controllers
         /// </summary>
         /// <param name="productId">The ID of the product to update.</param>
         /// <param name="request">The request containing updated product details.</param>
+        [ValidateUserRole(AllowedRoles = ["Admin"])]
         [HttpDelete("{productId}")]
         public async Task<IActionResult> Delete([FromRoute] int productId, [FromBody] ProductDeleteRequest request)
         {

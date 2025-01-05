@@ -1,6 +1,8 @@
 import { toast } from 'react-toastify';
 import { CustomResponse } from '../models/CustomResponse';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import StorageService from './StorageService';
+import { JwtTokenContainerModel } from '../models/JwtTokenContainerModel';
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api',
@@ -9,6 +11,20 @@ const apiClient: AxiosInstance = axios.create({
   },
   timeout: 10000,
 });
+
+// Add request interceptor to attach Bearer token
+apiClient.interceptors.request.use(
+  (config) => {
+    const tokens = StorageService.getValue<JwtTokenContainerModel>('tokens')
+    if (tokens) {
+      config.headers['Authorization'] = `Bearer ${tokens.accessToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 apiClient.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
