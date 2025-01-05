@@ -6,6 +6,7 @@ public static class AppConstants
     public const string BearerKey = "Bearer ";
     public const string AuthorizationHeaderKey = "Authorization";
     public const string APIGatewaySecretHeader = "X-API-Gateway-Key";
+    public const string UserRoleHeaderKey = "X-User-Role";
 
     public const string ContentType = "text/json";
 

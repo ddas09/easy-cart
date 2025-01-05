@@ -18,6 +18,28 @@ namespace EasyCart.ProductService.Controllers
         private readonly IProductService _productService = productService;
 
         /// <summary>
+        /// Returns product details with the id.
+        /// </summary>
+        /// <param name="productId">The ID of the product.</param>
+        [HttpGet("{productId}")]
+        public async Task<IActionResult> Get([FromRoute] int productId)
+        {
+            var product = await this._productService.GetProduct(productId);
+            return _customResponse.Success(data: product);
+        }
+
+        /// <summary>
+        /// Returns product that matches the search criteria.
+        /// </summary>
+        [ValidateUserRole(AllowedRoles = ["User", "Admin"])]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var product = await this._productService.GetAllProducts();
+            return _customResponse.Success(data: product);
+        }
+
+        /// <summary>
         /// Adds a new product.
         /// </summary>
         /// <param name="request">The request containing product details.</param>
@@ -60,27 +82,6 @@ namespace EasyCart.ProductService.Controllers
 
             await this._productService.DeleteProduct(request);
             return _customResponse.Success(message: "Product deleted successfully.");
-        }
-
-        /// <summary>
-        /// Returns product details with the id.
-        /// </summary>
-        /// <param name="productId">The ID of the product.</param>
-        [HttpGet("{productId}")]
-        public async Task<IActionResult> Get([FromRoute] int productId)
-        {
-            var product = await this._productService.GetProduct(productId);
-            return _customResponse.Success(data: product);
-        }
-
-        /// <summary>
-        /// Returns product that matches the search criteria.
-        /// </summary>
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var product = await this._productService.GetAllProducts();
-            return _customResponse.Success(data: product);
         }
     }
 }

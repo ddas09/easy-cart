@@ -8,5 +8,6 @@ internal static class ActionFilterCollection
     internal static void RegisterSharedActionFilters(this IServiceCollection services)
     {
         services.AddScoped<ValidateModelStateAttribute>();
+        services.AddScoped<ValidateUserRoleAttribute>();
     }
 }

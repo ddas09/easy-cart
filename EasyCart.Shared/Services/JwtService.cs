@@ -9,6 +9,22 @@ namespace EasyCart.Shared.Services;
 
 public class JwtService : IJwtService
 {
+    public IEnumerable<Claim> GetClaims(string token)
+    {
+        try
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            // Parse the token to extract the claims without validating the token (only used for extracting data)
+            var jwtToken = tokenHandler.ReadJwtToken(token);
+            return jwtToken?.Claims ?? [];
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
     public string GenerateToken(TokenConfigurationModel configuration, List<Claim> claims)
     {
         SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.TokenSecretKey));

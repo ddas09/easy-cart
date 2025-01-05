@@ -137,6 +137,7 @@ public class AuthService : IAuthService
         {
             new("id", user.Id.ToString()),
             new("email", user.Email),
+            new(ClaimTypes.Role, user.Role)
         };
 
         var accessToken = this._jwtService.GenerateToken(claims: claims, configuration: this._accessTokenConfiguration);
