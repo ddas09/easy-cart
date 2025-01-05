@@ -1,6 +1,6 @@
 import './Dashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
-import ProductList from './Products/ProductList';
+import ProductList from './Products/ProductList/ProductList';
 import { useState } from 'react';
 
 const Dashboard = () => {
@@ -40,7 +40,7 @@ const Dashboard = () => {
       <div className="dashboard-content">
         <div className="product-section">
           <h2>Available Products</h2>
-          <ProductList searchTerm={searchTerm} />
+          <ProductList searchTerm={searchTerm} isAdmin={true} />
         </div>
       </div>
     </div>

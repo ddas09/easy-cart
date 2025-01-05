@@ -1,11 +1,11 @@
 using System.Net;
 using EasyCart.Shared.Models;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using EasyCart.Shared.Constants;
 using Microsoft.Extensions.Options;
 using EasyCart.Shared.Services.Contracts;
 using EasyCart.API.Gateway.Models.Configurations;
-using System.Security.Claims;
 
 namespace EasyCart.API.Gateway.Middlewares;
 
@@ -33,6 +33,13 @@ public class AuthTokenValidationMiddleware
     {
         try
         {
+            // Allow OPTIONS requests (preflight) to bypass token validation
+            if (context.Request.Method == HttpMethod.Options.Method)
+            {
+                await _next(context);
+                return;
+            }
+
             var requestPath = context.Request.Path.Value;
 
             // Skip token validation for public endpoints
@@ -45,6 +52,8 @@ public class AuthTokenValidationMiddleware
             // Extract the Authorization header
             if (!context.Request.Headers.TryGetValue(AppConstants.AuthorizationHeaderKey, out var authHeader))
             {
+                Console.WriteLine("No Header");
+
                 var result = _customResponse.Unauthorized(message: "Access token is required.", status: AppConstants.TokenRequired);
                 await this.HandleResponse(result: result, context: context);
                 

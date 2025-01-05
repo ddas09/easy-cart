@@ -41,7 +41,7 @@ public static class AppConstants
     [
         "/auth/login",
         "/auth/register",
-        "auth/tokens/refresh"
+        "/auth/tokens/refresh"
     ];
 
     public const string AuthServiceBaseURL = "http://localhost:5001";
