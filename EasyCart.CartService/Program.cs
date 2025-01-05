@@ -2,7 +2,6 @@ using EasyCart.CartService.DAL;
 using EasyCart.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using EasyCart.CartService.DAL.Extensions;
-using EasyCart.Shared.Services.Extensions;
 using EasyCart.CartService.Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,7 +2,6 @@ using EasyCart.AuthService.DAL;
 using EasyCart.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using EasyCart.AuthService.DAL.Extensions;
-using EasyCart.Shared.Services.Extensions;
 using EasyCart.AuthService.Services.Extensions;
 using EasyCart.AuthService.Models.Configurations;
 

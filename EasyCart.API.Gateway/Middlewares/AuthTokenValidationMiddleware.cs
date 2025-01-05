@@ -5,6 +5,7 @@ using EasyCart.Shared.Constants;
 using Microsoft.Extensions.Options;
 using EasyCart.Shared.Services.Contracts;
 using EasyCart.API.Gateway.Models.Configurations;
+using System.Security.Claims;
 
 namespace EasyCart.API.Gateway.Middlewares;
 
@@ -20,7 +21,8 @@ public class AuthTokenValidationMiddleware
     (
         RequestDelegate next, 
         ILogger<AuthTokenValidationMiddleware> logger, 
-        IOptions<AuthTokenConfiguration> authTokenConfiguration)
+        IOptions<AuthTokenConfiguration> authTokenConfiguration
+    )
     {
         _next = next;
         _logger = logger;
@@ -57,6 +59,15 @@ public class AuthTokenValidationMiddleware
             // Continue with the request if the token is valid
             if (jwtService.IsValidToken(configuration: _authTokenConfiguration, token: accessToken))
             {
+                var claims = jwtService.GetClaims(accessToken);
+
+                // Forward the claims to downstream services by adding them to headers
+                var roleClaim = claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
+                if (roleClaim != null)
+                {
+                    context.Request.Headers.Append(AppConstants.UserRoleHeaderKey, roleClaim.Value);
+                }
+
                 await _next(context);
             }
             // If access token is invalid it's FE's responsibility to accuquire new set of tokens

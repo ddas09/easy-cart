@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using EasyCart.Shared.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyCart.Shared.Services.Extensions;
+namespace EasyCart.Shared.Extensions;
 
-public static class ServiceCollection
+public static class BuilderServiceCollection
 {
     public static void RegisterSharedServices(this IServiceCollection services)
     {

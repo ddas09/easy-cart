@@ -1,7 +1,6 @@
 using EasyCart.Shared.Extensions;
 using EasyCart.ProductService.DAL;
 using Microsoft.EntityFrameworkCore;
-using EasyCart.Shared.Services.Extensions;
 using EasyCart.ProductService.DAL.Extensions;
 using EasyCart.ProductService.Services.Extensions;
 
