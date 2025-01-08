@@ -28,3 +28,6 @@ dist-ssr
 # Backend
 bin
 obj
+
+# local changes for test
+easy-cart-local

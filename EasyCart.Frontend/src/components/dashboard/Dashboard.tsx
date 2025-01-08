@@ -40,7 +40,7 @@ const Dashboard = () => {
       <div className="dashboard-content">
         <div className="product-section">
           <h2>Available Products</h2>
-          <ProductList searchTerm={searchTerm} isAdmin={true} />
+          <ProductList searchTerm={searchTerm} isAdmin={user.isAdmin} />
         </div>
       </div>
     </div>
