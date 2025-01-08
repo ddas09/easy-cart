@@ -11,6 +11,7 @@ public class UserMappingProfile : Profile
     {
         CreateMap<RegisterRequest, User>();
 
-        CreateMap<User, UserInformation>();
+        CreateMap<User, UserInformation>()
+            .ForMember(dest => dest.IsAdmin, opt => opt.MapFrom(src => src.Role == "Admin"));
     }
 }

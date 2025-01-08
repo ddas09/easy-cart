@@ -1,6 +1,4 @@
-using LinqKit;
 using AutoMapper;
-using System.Linq.Expressions;
 using EasyCart.Shared.Constants;
 using EasyCart.Shared.Exceptions;
 using EasyCart.ProductService.DAL.Contracts;
@@ -29,7 +27,7 @@ public class ProductService : IProductService
     {
         var product = this._mapper.Map<Product>(request);
         product.UpdatedBy = request.CreatedBy;
-
+        product.IsActive = true;
         await this._productRepository.Add(product);
 
         return this._mapper.Map<ProductInformation>(product);

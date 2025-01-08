@@ -49,6 +49,16 @@ const ManageProduct = ({ product, onSave, onCancel }: ManageProductProps) => {
               />
             </label>
             <label>
+              Image:
+              <input
+                type="text"
+                name="imageURL"
+                value={formData.imageURL}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label>
               Description:
               <textarea
                 name="description"

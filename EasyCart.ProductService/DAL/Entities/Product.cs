@@ -16,4 +16,6 @@ public class Product : BaseEntity
     public required int Stock { get; set; }  
 
     public required bool IsActive { get; set; }  
+
+    public required string ImageUrl { get; set; }
 }

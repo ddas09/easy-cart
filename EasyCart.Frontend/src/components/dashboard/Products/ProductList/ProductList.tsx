@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+import { useAuth } from '../../../../contexts/AuthContext';
 import { ProductInformation, ProductResponse } from '../../../../models/ProductResponse';
 import apiService from '../../../../services/APIService';
 import ManageProduct from '../ManageProduct/ManageProduct';
@@ -10,6 +12,8 @@ interface ProductListProps {
 }
 
 const ProductList = ({ searchTerm, isAdmin }: ProductListProps) => {
+  const { user } = useAuth();
+
   const [products, setProducts] = useState<ProductInformation[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<ProductInformation[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,18 +48,29 @@ const ProductList = ({ searchTerm, isAdmin }: ProductListProps) => {
     try {
       if (product.id === 0) {
         // Add new product
-        const response = await apiService.post<ProductInformation>('/products', product);
+        const newProduct = {
+          ...product, // Spread all properties from product
+          createdBy: user?.email, // Add email from user
+        };
+
+        const response = await apiService.post<ProductInformation>('/products', newProduct);
         if (response.status === 'success') {
           setProducts([...products, response.data as ProductInformation]);
+          toast.info(response.message);
         }
       } else {
         // Update existing product
-        const response = await apiService.put<ProductInformation>(`/products/${product.id}`, product);
+        const updatedProduct = {
+          ...product, // Spread all properties from product
+          updatedBy: user?.email, // Add email from user
+        };
+        const response = await apiService.put<ProductInformation>(`/products/${product.id}`, updatedProduct);
         if (response.status === 'success') {
           const updatedProducts = products.map((p) =>
             p.id === product.id ? response.data : p
           );
           setProducts(updatedProducts as ProductInformation[]);
+          toast.info(response.message);
         }
       }
     } finally {

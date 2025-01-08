@@ -19,6 +19,9 @@ public class ProductAddRequest
     public int Stock { get; set; }
 
     [Required]
+    public string ImageUrl{ get; set; }
+
+    [Required]
     [EmailAddress]
     public string CreatedBy { get; set; }
 }
