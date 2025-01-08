@@ -13,5 +13,5 @@ public interface IProductService
 
     Task<ProductInformation> UpdateProduct(ProductUpdateRequest request);
 
-    Task DeleteProduct(ProductDeleteRequest request);
+    Task DeleteProduct(int productId);
 }

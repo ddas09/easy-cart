@@ -3,7 +3,7 @@
 echo "Starting all backend services and the React frontend for Easy Cart..."
 
 # Array of ports used by the backend projects
-backend_ports=(5000 5001 5002 5003 5004)
+backend_ports=(5000 5001 5002)
 
 # Kill any processes using the backend ports
 for port in "${backend_ports[@]}"
@@ -22,8 +22,6 @@ backend_projects=(
   "EasyCart.API.Gateway/EasyCart.API.Gateway.csproj"
   "EasyCart.AuthService/EasyCart.AuthService.csproj"
   "EasyCart.ProductService/EasyCart.ProductService.csproj"
-  "EasyCart.CartService/EasyCart.CartService.csproj"
-  "EasyCart.OrderService/EasyCart.OrderService.csproj"
 )
 
 # Start each backend project

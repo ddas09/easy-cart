@@ -77,14 +77,9 @@ namespace EasyCart.ProductService.Controllers
         /// <param name="request">The request containing updated product details.</param>
         [ValidateUserRole(AllowedRoles = ["Admin"])]
         [HttpDelete("{productId}")]
-        public async Task<IActionResult> Delete([FromRoute] int productId, [FromBody] ProductDeleteRequest request)
+        public async Task<IActionResult> Delete([FromRoute] int productId)
         {
-            if (productId != request.Id)
-            {
-                return _customResponse.BadRequest(message: "Product ID in URL does not match the ID in the request.");
-            }
-
-            await this._productService.DeleteProduct(request);
+            await this._productService.DeleteProduct(productId);
             return _customResponse.Success(message: "Product deleted successfully.");
         }
     }

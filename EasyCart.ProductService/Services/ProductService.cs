@@ -50,15 +50,14 @@ public class ProductService : IProductService
         return this._mapper.Map<ProductInformation>(product);
     }
 
-    public async Task DeleteProduct(ProductDeleteRequest request)
+    public async Task DeleteProduct(int productId)
     {
-        var product = await this._productRepository.Get(p => p.Id == request.Id)
+        var product = await this._productRepository.Get(p => p.Id == productId)
             ?? throw new ApiException(message: "Product with this id doesn't exists.", errorCode: AppConstants.ErrorCodeEnum.NotFound);
         
         // just deactivate the product
         product.IsActive = false;
         product.UpdatedDate = DateTime.UtcNow;
-        product.UpdatedBy = request.DeletedBy;
 
         await this._productRepository.Update(product);
     }
