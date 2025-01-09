@@ -57,6 +57,7 @@ const ProductList = ({ searchTerm, isAdmin }: ProductListProps) => {
         if (response.status === 'success') {
           setProducts([...products, response.data as ProductInformation]);
           toast.info(response.message);
+          setShowManageProduct(false);
         }
       } else {
         // Update existing product
@@ -70,11 +71,11 @@ const ProductList = ({ searchTerm, isAdmin }: ProductListProps) => {
             p.id === product.id ? response.data : p
           );
           setProducts(updatedProducts as ProductInformation[]);
+          setShowManageProduct(false);
           toast.info(response.message);
         }
       }
     } finally {
-      setShowManageProduct(false);
       setEditingProduct(null);
     }
   };
@@ -116,8 +117,8 @@ const ProductList = ({ searchTerm, isAdmin }: ProductListProps) => {
               <p>Stock: <strong>{product.stock}</strong></p>
               {isAdmin && (
                 <div className="admin-buttons">
-                  <button onClick={() => handleEditProduct(product)}>Edit</button>
-                  <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
+                  <button className="edit-button" onClick={() => handleEditProduct(product)}>Edit</button>
+                  <button className="delete-button" onClick={() => handleDeleteProduct(product.id)}>Delete</button>
                 </div>
               )}
             </div>

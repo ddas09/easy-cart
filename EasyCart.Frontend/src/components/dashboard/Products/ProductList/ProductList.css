@@ -15,7 +15,7 @@
   border: 1px solid #ddd;
   border-radius: 10px;
   overflow: hidden;
-  width: 200px;
+  width: 220px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -86,8 +86,6 @@
 }
 
 .admin-buttons button {
-  background-color: green;
-  color: #fff;
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
@@ -96,8 +94,22 @@
   margin: 5px;
 }
 
-.admin-buttons button:hover {
-  background-color: #c82333;
+.admin-buttons .edit-button {
+  background-color: green;
+  color: #fff;
+}
+
+.admin-buttons .edit-button:hover {
+  background-color: #006400;
+}
+
+.admin-buttons .delete-button {
+  background-color: red;
+  color: #fff;
+}
+
+.admin-buttons .delete-button:hover {
+  background-color: #b22222;
 }
 
 .add-product-button {
