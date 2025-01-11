@@ -5,15 +5,13 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.ProductService", "EasyCart.ProductService\EasyCart.ProductService.csproj", "{DD4D46E6-7338-4494-B10E-9035E52CA7CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.CartService", "EasyCart.CartService\EasyCart.CartService.csproj", "{6B661F21-546F-4881-985E-8EB022A92162}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.OrderService", "EasyCart.OrderService\EasyCart.OrderService.csproj", "{9AD5452B-F1D3-4365-AB00-A87DE023329A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.API.Gateway", "EasyCart.API.Gateway\EasyCart.API.Gateway.csproj", "{1394E516-5810-4996-AF0B-38ED9023F420}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.Shared", "EasyCart.Shared\EasyCart.Shared.csproj", "{358E6E80-7EF0-40BB-B9BD-B55E70C90A0D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.AuthService", "EasyCart.AuthService\EasyCart.AuthService.csproj", "{8BF71090-5697-401F-8AF5-C1341EDE87C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCart.NotificationService", "EasyCart.NotificationService\EasyCart.NotificationService.csproj", "{DAD107E0-73AA-4BB4-84AB-B1A8C67A817F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,5 +46,9 @@ Global
 		{8BF71090-5697-401F-8AF5-C1341EDE87C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BF71090-5697-401F-8AF5-C1341EDE87C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BF71090-5697-401F-8AF5-C1341EDE87C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAD107E0-73AA-4BB4-84AB-B1A8C67A817F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAD107E0-73AA-4BB4-84AB-B1A8C67A817F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAD107E0-73AA-4BB4-84AB-B1A8C67A817F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAD107E0-73AA-4BB4-84AB-B1A8C67A817F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

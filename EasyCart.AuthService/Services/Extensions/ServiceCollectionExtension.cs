@@ -11,5 +11,7 @@ public static class ServiceCollection
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<ICryptographyService, CryptographyService>();
         services.AddScoped<IAuthService, AuthService>();
+        
+        services.AddSingleton<IRabbitMQService, RabbitMQService>();
     }
 }

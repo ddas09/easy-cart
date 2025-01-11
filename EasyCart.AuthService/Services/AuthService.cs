@@ -11,6 +11,7 @@ using EasyCart.AuthService.Models.Request;
 using EasyCart.AuthService.Models.Response;
 using EasyCart.AuthService.Services.Contracts;
 using EasyCart.AuthService.Models.Configurations;
+using EasyCart.Shared.Models.Queue;
 
 namespace EasyCart.AuthService.Services;
 
@@ -19,6 +20,7 @@ public class AuthService : IAuthService
     private readonly IMapper _mapper;
     private readonly IJwtService _jwtService;
     private readonly IUserRepository _userRepository;
+    private readonly IRabbitMQService _rabbitMQService;
     private readonly ICryptographyService _cryptographyService;
     private readonly AccessTokenConfiguration _accessTokenConfiguration;
     private readonly RefreshTokenConfiguration _refreshTokenConfiguration;
@@ -29,6 +31,7 @@ public class AuthService : IAuthService
         IMapper mapper, 
         IJwtService jwtService,
         IUserRepository userRepository, 
+        IRabbitMQService rabbitMQService,
         ICryptographyService cryptographyService,
         IRefreshTokenEntryRepository refreshTokenEntryRepository,
         IOptions<AccessTokenConfiguration> accessTokenConfiguration,
@@ -37,6 +40,7 @@ public class AuthService : IAuthService
         _mapper = mapper;
         _jwtService = jwtService;
         _userRepository = userRepository;
+        _rabbitMQService = rabbitMQService;
         _cryptographyService = cryptographyService;
         _refreshTokenEntryRepository = refreshTokenEntryRepository;
         _accessTokenConfiguration = accessTokenConfiguration.Value;
@@ -75,6 +79,13 @@ public class AuthService : IAuthService
 
         await this._userRepository.Add(newUser);
 
+        var userInfo = new UserMessage
+        {
+            UserId = newUser.Id,
+            Email = newUser.Email,
+        };
+        await this._rabbitMQService.SendMessageAsync(queueName: "user-info", userInfo);
+        
         return new AuthResponse
         {
             TokenContainer = await this.GetJwtTokens(user: newUser),
